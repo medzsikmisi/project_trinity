@@ -7,13 +7,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomePage'),
-      ),
-      body: Center(
-        child: TextButton(
-            child: Text('Login'), onPressed: () => Get.offNamed('/login')),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('HomePage'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                child: const Text('Login'),
+                onPressed: () => Get.offNamed('/login')),
+          ],
+        ));
   }
 }
