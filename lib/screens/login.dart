@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:project_trinity/controllers/login_controller.dart';
 import 'package:project_trinity/utils/managers/authentication.dart';
 
@@ -78,6 +80,14 @@ class LoginPage extends StatelessWidget {
     if (!(valid ?? false)) return;
     final auth = Authenticator();
     final result = await auth.login(controller.username.value.text, controller.password.value.text);
-    if(result)Get.offNamed('/');
+
+    if(!result) {
+      Fluttertoast.showToast(msg: 'Wrong credentials!');
+      return;
+    }
+    final box = await Hive.openBox('settings');
+    box.put('isLoggedIn',true);
+    Get.offNamed('/');
+    
   }
 }

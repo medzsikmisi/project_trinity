@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:project_trinity/screens/home.dart';
+import 'package:project_trinity/screens/host_lookup.dart';
 import 'package:project_trinity/screens/login.dart';
+import 'package:project_trinity/screens/owned_servers.dart';
 import 'package:project_trinity/screens/signup.dart';
 
 Future<void> main() async {
@@ -32,9 +34,11 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => const HomePage()),
         GetPage(name: '/login', page: () =>  LoginPage()),
         GetPage(name: '/signup', page: () =>  SignUpPage()),
+        GetPage(name: '/lookup', page: () =>  HostLookupPage()),
+        GetPage(name: '/owned', page: () =>  OwnedServersPage()),
       ],
       enableLog: true,
-      defaultTransition: Transition.fade,
+      defaultTransition: Transition.fadeIn,
       opaqueRoute: Get.isOpaqueRouteDefault,
       popGesture: Get.isPopGestureEnable,
       transitionDuration: Get.defaultDialogTransitionDuration,

@@ -1,5 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:project_trinity/widgets/drawer.dart';
+import 'package:project_trinity/widgets/trinity.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,13 +14,10 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('HomePage'),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                child: const Text('Login'),
-                onPressed: () => Get.offNamed('/login')),
+        drawer: const CustomDrawer(),
+        body: ListView(
+          children: const [
+            TrinityLogo()
           ],
         ));
   }
