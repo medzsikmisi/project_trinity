@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_trinity/controllers/login_controller.dart';
+import 'package:project_trinity/utils/managers/authentication.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -75,7 +76,8 @@ class LoginPage extends StatelessWidget {
   Future<void> login() async {
     final valid = controller.key.value.currentState?.validate();
     if (!(valid ?? false)) return;
-    Get.log(
-        'Username: ${controller.username.value.text}, password: ${controller.password.value.text}');
+    final auth = Authenticator();
+    final result = await auth.login(controller.username.value.text, controller.password.value.text);
+    if(result)Get.offNamed('/');
   }
 }
