@@ -1,5 +1,4 @@
 <?php
-
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
@@ -8,9 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $returned = [
 
-    ];
     $tns = "
 (DESCRIPTION =
     (ADDRESS_LIST =
@@ -27,17 +24,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $fullname = $_POST['full name'];
-    $zipcode = $_POST['zip code'];
-    $city = $_POST['city'];
-    $streetandnumber = $_POST['street and number'];
-    $country = $_POST['country'];
 
+    $returned["servers"] = [
 
-    $returned = [
-        'success' => 'true',
+        [
+            "id"=> 0,
+            "processor"=> "Kreml R5",
+            "location"=> "Ukraine"
+        ],
+        [
+            "id"=> 0,
+            "processor"=> "Krel R7",
+            "location"=>"Ukraine"
+        ]
+
     ];
+
+    $returned['success'] = true;
     echo json_encode($returned);
 }

@@ -6,8 +6,29 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-$returned = [
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $returned = [
 
-];
-$returned['success'] = true;
-echo json_encode($returned);
+    ];
+    $tns = "
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = orania2)
+    )
+  )";
+
+    $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
+    if ($conn != true) {
+        $returned['success'] = false;
+        echo json_encode($returned);
+        return;
+    }
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $returned['success'] = true;
+    echo json_encode($returned);
+}

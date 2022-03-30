@@ -1,5 +1,4 @@
 <?php
-
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
@@ -27,17 +26,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $fullname = $_POST['full name'];
-    $zipcode = $_POST['zip code'];
-    $city = $_POST['city'];
-    $streetandnumber = $_POST['street and number'];
-    $country = $_POST['country'];
+    $returned["userdata"] = [
 
-
-    $returned = [
-        'success' => 'true',
+            "email"=> "hello@bello.com",
+            "password"=> "asd",
+            "fullname"=> "Bekre Pál",
+            "address"=> "Tacskó utca 3"
     ];
+
+    if(isset($_POST["id"]) && $_POST["id"] !== null){
+        $id = $_POST["id"];
+    }
+
+
+    $returned['success'] = true;
     echo json_encode($returned);
 }
