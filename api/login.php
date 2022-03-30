@@ -5,7 +5,9 @@ header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$returned =[
-    'success'=>'true',
+
+$returned = [
+
 ];
+$returned['success'] = true;
 echo json_encode($returned);
