@@ -18,7 +18,7 @@ class NewOrderPage extends StatelessWidget {
       drawer: const CustomDrawer(),
       body: ListView(
         children: [
-          TrinityLogo(),
+          TrinityLogo(),Stack(children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -27,12 +27,12 @@ class NewOrderPage extends StatelessWidget {
               ),
               Obx(() => SizedBox(
                     width: Get.width * 0.4,
-                    child: DropdownSearch<String>(
+                    child: DropdownSearch<String>(enabled: !controller.loading.value,
                       showSelectedItems: true,
                       onSaved: (_) {
                         controller.result.value = _.toString();
                       },
-                      items: ['a', 'b', 'c'],
+                      items:controller.servers.value.map((e) => e.processor.toString()).toList(),
                       selectedItem: controller.result.value,
                     ),
                   )),
@@ -41,6 +41,8 @@ class NewOrderPage extends StatelessWidget {
                 child: ElevatedButton(onPressed: () {}, child: Text('Order')),
               )
             ],
+          ),
+          Visibility(child: const Center(child:CircularProgressIndicator()),visible: controller.loading.value,)],
           )
         ],
       ),
