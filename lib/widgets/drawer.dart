@@ -9,46 +9,38 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(children: [
-        const UserAccountsDrawerHeader(
-            accountName: Text('Almafa123'), accountEmail: SizedBox.shrink()),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextButton(
-            child: const Text('Home'),
-            onPressed: () async {
-              Get.offNamed('/');
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextButton(
-            child: const Text('Hostname lookup'),
-            onPressed: () async {
-              Get.offNamed('/lookup');
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextButton(
-            child: const Text('Owned servers'),
-            onPressed: () async {
-              Get.offNamed('/owned');
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextButton(
-            child: const Text('Log out'),
-            onPressed: () async {
-              await Hive.deleteFromDisk();
-              Get.offNamed('/login');
-            },
-          ),
-        ),
+        UserAccountsDrawerHeader(
+            accountName: Text(Hive.box('settings').get('username').toString()),
+            accountEmail: const SizedBox.shrink()),
+        createButton('Home', () async {
+          Get.offNamed('/');
+        }),
+        createButton('Order a new server', () async {
+          Get.offNamed('/servers/new');
+        }),
+        createButton('Hostname lookup', () async {
+          Get.offNamed('/lookup');
+        }),
+        createButton('Owned servers', () async {
+          Get.offNamed('/owned');
+        }),
+        createButton('Profile', () async {
+          Get.offNamed('/profile');
+        }),
+        createButton('Log out', () async {
+          Get.offNamed('/login');
+        }),
       ]),
+    );
+  }
+
+  Widget createButton(String name, action) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextButton(
+        child: Text(name),
+        onPressed: action,
+      ),
     );
   }
 }

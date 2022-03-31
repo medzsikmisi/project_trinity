@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:project_trinity/controllers/lookup_conroller.dart';
+import 'package:project_trinity/utils/managers/lookup_manager.dart';
 import 'package:project_trinity/widgets/drawer.dart';
 import 'package:project_trinity/widgets/trinity.dart';
 
@@ -14,14 +16,14 @@ class HostLookupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Host Lookup'),
+          title: const SelectableText('Host Lookup'),
         ),
         drawer: const CustomDrawer(),
         body: ListView(
           children: [
             const TrinityLogo(),
-            const SizedBox(
-              height: 200,
+            SizedBox(
+              height: Get.height * 0.2,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +40,14 @@ class HostLookupPage extends StatelessWidget {
                   }),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final manager = LookupManager();
+                      final result =
+                          await manager.lookUp(controller.hostname.value.text);
+                      Fluttertoast.showToast(
+                          msg:
+                              'This hostname is${result ? "" : "n't"} available.');
+                    },
                     icon: const Icon(FontAwesomeIcons.magnifyingGlass))
               ],
             )

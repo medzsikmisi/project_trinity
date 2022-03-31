@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LoginPage'),
+        title: const SelectableText('LoginPage'),
       ),
       body: Center(
         child: Form(
@@ -87,6 +87,7 @@ class LoginPage extends StatelessWidget {
     }
     final box = await Hive.openBox('settings');
     box.put('isLoggedIn',true);
+    box.put('username',controller.username.value.text);
     Get.offNamed('/');
     
   }

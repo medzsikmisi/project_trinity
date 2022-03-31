@@ -4,7 +4,9 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:project_trinity/screens/home.dart';
 import 'package:project_trinity/screens/host_lookup.dart';
 import 'package:project_trinity/screens/login.dart';
+import 'package:project_trinity/screens/new_order.dart';
 import 'package:project_trinity/screens/owned_servers.dart';
+import 'package:project_trinity/screens/profile.dart';
 import 'package:project_trinity/screens/signup.dart';
 
 Future<void> main() async {
@@ -26,22 +28,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
-      getPages: [
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        initialRoute: initialRoute,
+        getPages: [
         GetPage(name: '/', page: () => const HomePage()),
-        GetPage(name: '/login', page: () =>  LoginPage()),
-        GetPage(name: '/signup', page: () =>  SignUpPage()),
-        GetPage(name: '/lookup', page: () =>  HostLookupPage()),
-        GetPage(name: '/owned', page: () =>  OwnedServersPage()),
-      ],
-      enableLog: true,
-      defaultTransition: Transition.fadeIn,
-      opaqueRoute: Get.isOpaqueRouteDefault,
-      popGesture: Get.isPopGestureEnable,
-      transitionDuration: Get.defaultDialogTransitionDuration,
+    GetPage(name: '/login', page: () => LoginPage()),
+    GetPage(name: '/signup', page: () => SignUpPage()),
+    GetPage(name: '/profile', page: () => ProfilePage()),
+    GetPage(name: '/lookup', page: () => HostLookupPage()),
+    GetPage(name: '/owned', page: () => OwnedServersPage()),
+    GetPage(name: '/servers/new', page: () => NewOrderPage()),
+    ],
+    enableLog: true,
+    defaultTransition: Transition.fadeIn,
+    opaqueRoute: Get.isOpaqueRouteDefault,
+    popGesture: Get.isPopGestureEnable,
+    transitionDuration: Get.defaultDialogTransitionDuration,
     );
-  }
+    }
 }
