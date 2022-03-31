@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_trinity/controllers/order_controller.dart';
+import 'package:project_trinity/utils/managers/order_manager.dart';
 import 'package:project_trinity/widgets/drawer.dart';
 import 'package:project_trinity/widgets/trinity.dart';
 
@@ -12,13 +13,12 @@ class NewOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New order'),
-      ),
-      drawer: const CustomDrawer(),
-      body: ListView(
-        children: [
-          TrinityLogo(),Stack(children: [
+        appBar: AppBar(
+          title: const Text('New order'),
+        ),
+        drawer: const CustomDrawer(),
+        body: ListView(children: [
+          TrinityLogo(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -27,12 +27,21 @@ class NewOrderPage extends StatelessWidget {
               ),
               Obx(() => SizedBox(
                     width: Get.width * 0.4,
-                    child: DropdownSearch<String>(enabled: !controller.loading.value,
+                    child: DropdownSearch<String>(
+                      enabled: !controller.loading.value,
                       showSelectedItems: true,
                       onSaved: (_) {
                         controller.result.value = _.toString();
                       },
-                      items:controller.servers.value.map((e) => e.processor.toString()).toList(),
+                      items: [
+                        "Rackhost prémium server 10TB",
+                        "Dell server 10 TB",
+                        'Virtuális szerver 5 TB',
+                        'Virtuális szerver 10 TB',
+                        'Virtuális szerver 1 TB',
+                        'Virtuális szerver 20 TB',
+                        'Dell Szerver 20 TB,Google virtuális szerver 50 TB'
+                      ],
                       selectedItem: controller.result.value,
                     ),
                   )),
@@ -42,10 +51,13 @@ class NewOrderPage extends StatelessWidget {
               )
             ],
           ),
-          Visibility(child: const Center(child:CircularProgressIndicator()),visible: controller.loading.value,)],
-          )
-        ],
-      ),
-    );
+        ]));
+  }
+
+  fetchServers() async {
+    controller.loading.toggle();
+    final result = await OrderManager().fetchServers();
+    controller.servers = result.obs;
+    controller.loading.toggle();
   }
 }
