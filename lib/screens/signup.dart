@@ -56,7 +56,8 @@ class SignUpPage extends StatelessWidget {
                               return null;
                             },
                             decoration: const InputDecoration(
-                                labelText: 'Email', border: OutlineInputBorder()),
+                                labelText: 'Email',
+                                border: OutlineInputBorder()),
                             controller: controller.email.value,
                           ))),
                 ),
@@ -105,8 +106,9 @@ class SignUpPage extends StatelessWidget {
                       width: (Get.size.width.toDouble() * 0.5),
                       child: Row(
                         children: [
-                          Obx(() => SizedBox(width: Get.width*0.3,
-                            child: TextFormField(
+                          Obx(() => SizedBox(
+                                width: Get.width * 0.3,
+                                child: TextFormField(
                                   validator: (s) {
                                     if (s?.isEmpty ?? false)
                                       return 'Type a country.';
@@ -118,11 +120,13 @@ class SignUpPage extends StatelessWidget {
                                       border: OutlineInputBorder()),
                                   controller: controller.country.value,
                                 ),
-                          )),
-                          Obx(() => SizedBox(width: Get.width*0.2,
-                            child: TextFormField(
+                              )),
+                          Obx(() => SizedBox(
+                                width: Get.width * 0.2,
+                                child: TextFormField(
                                   validator: (s) {
-                                    if (s?.isEmpty ?? false) return 'Type a ZIP.';
+                                    if (s?.isEmpty ?? false)
+                                      return 'Type a ZIP.';
                                     return null;
                                   },
                                   obscureText: true,
@@ -131,7 +135,7 @@ class SignUpPage extends StatelessWidget {
                                       border: OutlineInputBorder()),
                                   controller: controller.zip.value,
                                 ),
-                          )),
+                              )),
                         ],
                       )),
                 ),
@@ -140,17 +144,17 @@ class SignUpPage extends StatelessWidget {
                   child: SizedBox(
                       width: (Get.size.width.toDouble() * 0.5),
                       child: Obx(() => TextFormField(
-                        validator: (s) {
-                          if (s?.isEmpty ?? false)
-                            return 'Type a street and a number.';
-                          return null;
-                        },
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            labelText: 'Street and number',
-                            border: OutlineInputBorder()),
-                        controller: controller.streetAndNumber.value,
-                      ))),
+                            validator: (s) {
+                              if (s?.isEmpty ?? false)
+                                return 'Type a street and a number.';
+                              return null;
+                            },
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                                labelText: 'Street and number',
+                                border: OutlineInputBorder()),
+                            controller: controller.streetAndNumber.value,
+                          ))),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -178,7 +182,12 @@ class SignUpPage extends StatelessWidget {
     if (!(valid ?? false)) return;
     final auth = Authenticator();
     final result = await auth.register(
-        controller.email.value.text, controller.password.value.text);
+        controller.email.value.text,
+        controller.password.value.text,
+        controller.name.value.text,
+        controller.country.value.text,
+        controller.zip.value.text,
+        controller.streetAndNumber.value.text);
     if (!result) {
       Fluttertoast.showToast(msg: 'Wrong credentials!');
       return;
