@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
     final auth = Authenticator();
     final result = await auth.login(controller.username.value.text, controller.password.value.text);
 
-    if(result) {
+    if(!result) {
       Fluttertoast.showToast(msg: 'Wrong credentials!');
       return;
     }
