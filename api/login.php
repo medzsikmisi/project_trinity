@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
-
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -51,6 +50,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
     echo json_encode($returned);
+
+
+} else {
+    $tns = "
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = orania2)
+    )
+  )";
+    // Connect to database
+    $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
+    //On error, send back an error
+    if ($conn === false) {
+        echo 'connection error';
+    } else {
+        echo 'successful connection';
+    }
 
 
 }
