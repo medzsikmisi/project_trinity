@@ -8,7 +8,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $returned = [
-
     ];
     $tns = "
 (DESCRIPTION =
@@ -19,16 +18,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       (SID = orania2)
     )
   )";
-
+    // Connect to database
     $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
-    if ($conn != true) {
+    //On error, send back an error
+    if ($conn === false) {
         $returned['success'] = false;
         echo json_encode($returned);
         return;
     }
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    if (empty($email) || empty($password)) {
+        $returned['success'] = false;
+        echo json_encode($returned);
+        return;
+    }
+
     $returned['success'] = true;
+    $query = oci_parse($conn, "select email from users where email =$email and password = $password");
+    oci_execute($query);
+    $counter = 0;
+    while ($row = oci_fetch_array($query)) {
+        if ($row[0] === $email) $counter++;
+    }
+    if (counter === 1) {
+        $returned["success"] = true;
+        $returned["email"] = $email;
+    } else {
+        $returned['success'] = false;
+
+    }
     echo json_encode($returned);
+
+
 }
