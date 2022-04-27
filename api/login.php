@@ -1,14 +1,14 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    header("Access-Control-Allow-Origin: *");
+    header("Content-Type: application/json; charset=UTF-8");
+
+
+
     $returned = [
     ];
+    $returned['post']=json_encode($_POST);
     $tns = "
 (DESCRIPTION =
     (ADDRESS_LIST =
@@ -26,32 +26,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+
+    $email = empty($_POST['email']) ? '' : $_POST['email'];
+    $password = empty($_POST['password']) ? '' : $_POST['password'];
 
     if (empty($email) || empty($password)) {
-        $returned['success'] = false;
+        $returned['success_FAZSOM'] = false;
         echo json_encode($returned);
         return;
     }
-
-    $returned['success'] = true;
-    $query = oci_parse($conn, "select email from users where email =$email and password = $password");
+    $query = oci_parse($conn, "SELECT count(C##OFAX96.USERS.EMAIL) COUNT FROM C##OFAX96.USERS WHERE C##OFAX96.USERS.EMAIL = 'almafa123@alma.fa' AND C##OFAX96.USERS.PWD = 'valami'");
     oci_execute($query);
-    $counter = 0;
-    while ($row = oci_fetch_array($query)) {
-        if ($row[0] === $email) $counter++;
-    }
-    if (counter === 1) {
+    $data = oci_fetch_assoc($query);
+    $counter = $data["COUNT"];
+    $returned["rownum"]=$counter;
+    if ($counter ==1) {
         $returned["success"] = true;
         $returned["email"] = $email;
     } else {
         $returned['success'] = false;
-
     }
     echo json_encode($returned);
-
-
 } else {
     $tns = "
 (DESCRIPTION =
@@ -68,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn === false) {
         echo 'connection error';
     } else {
-        echo 'successful connection';
+        echo 'successfullkllllll connection';
     }
 
 
