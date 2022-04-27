@@ -24,23 +24,24 @@ if ($conn === false) {
 }
 
 $domainname = empty($_GET['name']) ? '' : $_GET['name'];
-$password = empty($_GET['password']) ? '' : $_GET['password'];
 
-if (empty($email) || empty($password)) {
+if (empty($domainname) ) {
     $returned['success'] = false;
+    $returned['message'] = 'missing_params';
     echo json_encode($returned);
     oci_close($conn);
     return;
 }
-$query = oci_parse($conn, "SELECT count(C##OFAX96.USERS.EMAIL) COUNT FROM C##OFAX96.DOMAINS WHERE C##OFAX96.DOMAINS.NAME = '$domainname'");
+$query = oci_parse($conn, "SELECT count(C##OFAX96.DOMAINS.NAME) COUNT FROM C##OFAX96.DOMAINS WHERE C##OFAX96.DOMAINS.NAME = '$domainname'");
 oci_execute($query);
 $data = oci_fetch_assoc($query);
-$counter = $data["COUNT"];
-if ($counter == 1) {
+if ($data !== false) {
     $returned["success"] = true;
-    $returned["email"] = $email;
+    $counter = $data["COUNT"];
+    $returned['available'] = $counter === '0';
 } else {
     $returned['success'] = false;
+    $returned['message'] = 'QUERY_ERROR';
 }
 oci_close($conn);
 echo json_encode($returned);
