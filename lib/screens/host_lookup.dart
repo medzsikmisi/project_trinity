@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:project_trinity/controllers/lookup_conroller.dart';
@@ -44,9 +43,10 @@ class HostLookupPage extends StatelessWidget {
                       final manager = LookupManager();
                       final result =
                           await manager.lookUp(controller.hostname.value.text);
-                      Fluttertoast.showToast(
-                          msg:
-                              'This hostname is${result ? "" : "n't"} available.');
+                      Get.snackbar('SUCCESSFUL HOSTNAME LOOKUP',
+                          'This hostname is${result ? "" : "n't"} available.',
+                          backgroundColor: Colors.greenAccent,
+                          colorText: Colors.black);
                     },
                     icon: const Icon(FontAwesomeIcons.magnifyingGlass))
               ],
