@@ -1,14 +1,11 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $tns = "
+$returned = [];
+$tns = "
 (DESCRIPTION =
     (ADDRESS_LIST =
       (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
@@ -17,29 +14,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       (SID = orania2)
     )
   )";
-
-    $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
-    if ($conn != true) {
-        $returned['success'] = false;
-        echo json_encode($returned);
-        return;
-    }
-
-    $returned["servers"] = [
-
-        [
-            "id"=> 0,
-            "processor"=> "Kreml R5",
-            "location"=> "Ukraine"
-        ],
-        [
-            "id"=> 0,
-            "processor"=> "Krel R7",
-            "location"=>"Ukraine"
-        ]
-
-    ];
-
-    $returned['success'] = true;
+// Connect to database
+$conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
+//On error, send back an error
+if ($conn === false) {
+    $returned['success'] = false;
     echo json_encode($returned);
+    return;
 }
+//IDAIG MIDENKEPP KELL
+// ---------------------------------------
+
+
+
+$query = oci_parse($conn, "SELECT * FROM SERVERS WHERE TRUE");
+oci_execute($query);
+
+$data = oci_fetch_assoc($query);
+
+if ($counter == 1) {
+    $returned["success"] = true;
+    $returned["email"] = $email;
+} else {
+    $returned['success'] = false;
+}
+oci_close($conn);
+echo json_encode($returned);
