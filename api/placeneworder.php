@@ -26,7 +26,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
-    $serverid = $_POST['serverID'];
+    if (!isset($_GET['server_id'],$_GET['user_id'])) {
+        $returned['success'] = false;
+        $returned['message'] = 'MISSING_PARAM(S)';
+        echo json_encode($returned);
+        return;
+    }
+
+    $userid = $_GET['user_id'];
+    $serverid = $_GET['server_id'];
+    $query = oci_parse($conn, "insert into owned_servers (user_id,server_id) values ('$user_id','$server_id');");
+	if ($query === false) {
+        //TODO handle
+    }
+
+    $query = oci_parse($conn, "update servers set is_available = 0 where id = '$id'");
+    oci_execute($query);
+    if ($query === false) {
+        //TODO handle
+    }$query = oci_parse($conn, "insert into orders (user_id,server_id,is_ordered) values ('$userid','$serverid',1)");
+    oci_execute($query);
+    if ($query === false) {
+        //TODO handle
+    }
+
 
     $returned['success'] = true;
     echo json_encode($returned);
