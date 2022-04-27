@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:project_trinity/controllers/order_controller.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class CustomDrawer extends StatelessWidget {
           Get.offNamed('/');
         }),
         createButton('Order a new server', () async {
+          final controller = Get.find<OrderController>();
+          controller.loadData();
           Get.offNamed('/servers/new');
         }),
         createButton('Hostname lookup', () async {

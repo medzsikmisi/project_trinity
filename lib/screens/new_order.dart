@@ -1,14 +1,14 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_trinity/controllers/order_controller.dart';
 import 'package:project_trinity/utils/managers/order_manager.dart';
 import 'package:project_trinity/widgets/drawer.dart';
 import 'package:project_trinity/widgets/trinity.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class NewOrderPage extends StatelessWidget {
   NewOrderPage({Key? key}) : super(key: key);
-  final controller = Get.put(OrderController());
+  final controller = Get.find<OrderController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,37 +19,57 @@ class NewOrderPage extends StatelessWidget {
         drawer: const CustomDrawer(),
         body: ListView(children: [
           TrinityLogo(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: Get.height * 0.2,
-              ),
-              Obx(() => SizedBox(
-                    width: Get.width * 0.4,
-                    child: DropdownSearch<String>(
-                      enabled: !controller.loading.value,
-                      showSelectedItems: true,
-                      onSaved: (_) {
-                        controller.result.value = _.toString();
-                      },
-                      items: [
-                        "Rackhost prémium server 10TB",
-                        "Dell server 10 TB",
-                        'Virtuális szerver 5 TB',
-                        'Virtuális szerver 10 TB',
-                        'Virtuális szerver 1 TB',
-                        'Virtuális szerver 20 TB',
-                        'Dell Szerver 20 TB,Google virtuális szerver 50 TB'
-                      ],
-                      selectedItem: controller.result.value,
-                    ),
-                  )),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(onPressed: () {}, child: Text('Order')),
-              )
-            ],
+          Obx(
+            () => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                  controller.servers.length,
+                  (i) => Card(
+                        child: SizedBox(width: Get.width*0.8,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Name'),
+                                    Text(controller.servers[i].name.toString())
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Capacity'),
+                                    Text(controller.servers[i].capacity.toString())
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Price'),
+                                    Text(controller.servers[i].price.toString())
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RoundedLoadingButton(
+                                    controller: controller.buttonController.value,
+                                    onPressed: () {},
+                                    child: Text('Order')),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+            ),
           ),
         ]));
   }

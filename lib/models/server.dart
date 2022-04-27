@@ -1,21 +1,27 @@
 class Server {
-  int? id;
-  String? processor;
-  String? location;
+  String? id;
+  String? name;
+  bool? isAvailable;
+  String? price;
+  String? capacity;
 
-  Server({this.id, this.processor, this.location});
+  Server({this.id, this.capacity, this.isAvailable, this.price, this.name});
 
-  Server.fromJson(Map<String, dynamic> json) {
+  Server.fromJson(Map<dynamic, dynamic> json) {
+    name = json['name'];
     id = json['id'];
-    processor = json['processor'];
-    location = json['location'];
+    capacity = json['capacity'];
+    price = json['price'];
+    isAvailable = json['is_available'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = id;
-    data['processor'] = processor;
-    data['location'] = location;
+    data['capacity'] = capacity;
+    data['price'] = price;
+    data['is_available'] = price;
+    data['name'] = name;
     return data;
   }
 }
