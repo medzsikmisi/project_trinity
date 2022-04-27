@@ -114,7 +114,6 @@ class SignUpPage extends StatelessWidget {
                                       return 'Type a country.';
                                     return null;
                                   },
-                                  obscureText: true,
                                   decoration: const InputDecoration(
                                       labelText: 'Country',
                                       border: OutlineInputBorder()),
@@ -129,7 +128,6 @@ class SignUpPage extends StatelessWidget {
                                       return 'Type a ZIP.';
                                     return null;
                                   },
-                                  obscureText: true,
                                   decoration: const InputDecoration(
                                       labelText: 'ZIP',
                                       border: OutlineInputBorder()),
@@ -149,7 +147,6 @@ class SignUpPage extends StatelessWidget {
                                 return 'Type a street and a number.';
                               return null;
                             },
-                            obscureText: true,
                             decoration: const InputDecoration(
                                 labelText: 'Street and number',
                                 border: OutlineInputBorder()),
