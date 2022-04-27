@@ -1,14 +1,14 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
-
-    $returned = [
-    ];
-    $returned['post']=json_encode($_POST);
+    $returned = [];
     $tns = "
 (DESCRIPTION =
     (ADDRESS_LIST =
@@ -27,25 +27,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
 
-    $email = empty($_POST['email']) ? '' : $_POST['email'];
-    $password = empty($_POST['password']) ? '' : $_POST['password'];
+    $email = empty($_GET['email']) ? '' : $_GET['email'];
+    $password = empty($_GET['password']) ? '' : $_GET['password'];
 
     if (empty($email) || empty($password)) {
-        $returned['success_FAZSOM'] = false;
+        $returned['success'] = false;
         echo json_encode($returned);
+        oci_close($conn);
         return;
     }
-    $query = oci_parse($conn, "SELECT count(C##OFAX96.USERS.EMAIL) COUNT FROM C##OFAX96.USERS WHERE C##OFAX96.USERS.EMAIL = 'almafa123@alma.fa' AND C##OFAX96.USERS.PWD = 'valami'");
+    $query = oci_parse($conn, "SELECT count(C##OFAX96.USERS.EMAIL) COUNT FROM C##OFAX96.USERS WHERE C##OFAX96.USERS.EMAIL = '$email' AND C##OFAX96.USERS.PWD = '$password'");
     oci_execute($query);
     $data = oci_fetch_assoc($query);
     $counter = $data["COUNT"];
-    $returned["rownum"]=$counter;
-    if ($counter ==1) {
+    if ($counter == 1) {
         $returned["success"] = true;
         $returned["email"] = $email;
     } else {
         $returned['success'] = false;
     }
+    oci_close($conn);
     echo json_encode($returned);
 } else {
     $tns = "
@@ -63,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn === false) {
         echo 'connection error';
     } else {
-        echo 'successfullkllllll connection';
+        echo 'successful connection';
     }
 
 

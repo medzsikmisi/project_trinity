@@ -7,7 +7,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $returned = [
 
     ];
@@ -20,24 +20,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       (SID = orania2)
     )
   )";
-
+    if (!isset($_GET['email'], $_GET['password'], $_GET['full_name'], $_GET['zip_code'], $_GET['city'], $_GET['street_and_number'], $_GET['country'])) {
+        $returned['success'] = false;
+        $returned['message'] = 'MISSING_PARAM(S)';
+        echo json_encode($returned);
+        return;
+    }
     $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
-    if ($conn != true) {
+    if ($conn === false) {
         $returned['success'] = false;
         echo json_encode($returned);
         return;
     }
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $fullname = $_POST['full name'];
-    $zipcode = $_POST['zip code'];
-    $city = $_POST['city'];
-    $streetandnumber = $_POST['street and number'];
-    $country = $_POST['country'];
 
 
-    $returned = [
-        'success' => 'true',
-    ];
+    $email = $_GET['email'];
+    $password = $_GET['password'];
+    $full_name = $_GET['full_name'];
+    $zipcode = $_GET['zip_code'];
+    $city = $_GET['city'];
+    $street_and_number = $_GET['street_and_number'];
+    $country = $_GET['country'];
+    $statement = oci_parse($conn,"INSERT INTO USERS(EMAIL, PWD, FULL_NAME) VALUES ('$email','$password','$full_name')");
+    $result = oci_execute($statement);
+    if($result!==false){
+        $returned['success']=true;
+    }else{
+        $returned['success']=false;
+        $returned['message']='INSERTING_ERROR';
+    }
+
+    oci_close($conn);
     echo json_encode($returned);
 }
