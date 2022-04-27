@@ -26,6 +26,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($returned);
         return;
     }
+    if (!isset($_GET['id'])) {
+        $returned['success'] = false;
+        $returned['message'] = 'MISSING_PARAM(S)';
+        echo json_encode($returned);
+        return;
+    }
+
+    $userid =  $_GET['id'];
+
+    $query = oci_parse($conn, "SELECT * FROM C##OFAX96.USERS WHERE C##OFAX96.USERS.ID = '$userid'");
+    oci_execute($query);
+
+    $row=oci_fetch_array($query);
+    $email = $row['email'];
+    $password = $row['password'];
+    $full_name = $row['full_name'];
+    $id = $row['id'];
+
     $returned["userdata"] = [
 
             "email"=> "hello@bello.com",
