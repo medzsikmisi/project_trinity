@@ -2,10 +2,9 @@
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $returned = [
@@ -41,13 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $city = $_GET['city'];
     $street_and_number = $_GET['street_and_number'];
     $country = $_GET['country'];
-    $statement = oci_parse($conn,"INSERT INTO USERS(EMAIL, PWD, FULL_NAME) VALUES ('$email','$password','$full_name')");
+    $statement = oci_parse($conn, "INSERT INTO USERS(EMAIL, PWD, FULL_NAME) VALUES ('$email','$password','$full_name')");
     $result = oci_execute($statement);
-    if($result!==false){
-        $returned['success']=true;
-    }else{
-        $returned['success']=false;
-        $returned['message']='INSERTING_ERROR';
+    if ($result !== false) {
+        $returned['success'] = true;
+    } else {
+        $returned['success'] = false;
+        $returned['message'] = 'INSERTING_ERROR';
     }
 
     oci_close($conn);
