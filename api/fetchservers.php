@@ -26,7 +26,7 @@ if ($conn === false) {
 // ---------------------------------------
 
 
-$query = oci_parse($conn, "SELECT * FROM SERVERS");
+$query = oci_parse($conn, "SELECT * FROM SERVERS WHERE C##OFAX96.SERVERS.ISAVALIABLE = 1");
 oci_execute($query);
 $data = array();
 while ($row = oci_fetch_assoc($query)) {
