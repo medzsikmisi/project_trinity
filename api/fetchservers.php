@@ -26,17 +26,18 @@ if ($conn === false) {
 // ---------------------------------------
 
 
-
-$query = oci_parse($conn, "SELECT * FROM SERVERS WHERE TRUE");
+$query = oci_parse($conn, "SELECT * FROM SERVERS");
 oci_execute($query);
-
-$data = oci_fetch_assoc($query);
-
-if ($counter == 1) {
-    $returned["success"] = true;
-    $returned["email"] = $email;
-} else {
-    $returned['success'] = false;
+$data = array();
+while ($row = oci_fetch_assoc($query)) {
+    $new_server = [];
+    $new_server['id'] = $row['ID'];
+    $new_server['price'] = $row['PRICE'];
+    $new_server['capacity'] = $row['CAPACITY'];
+    $new_server['is_available'] = $row['IS_AVAILABLE']==='0';
+    array_push($data, $new_server);
 }
+$returned['success'] = true;
+$returned['data']= $data;
 oci_close($conn);
 echo json_encode($returned);
