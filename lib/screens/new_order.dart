@@ -63,7 +63,7 @@ class NewOrderPage extends StatelessWidget {
                                 child: RoundedLoadingButton(
                                     controller: controller.buttonController.value,
                                     onPressed: () {},
-                                    child: Text('Order')),
+                                    child: const Text('Order')),
                               )
                             ],
                           ),
@@ -73,7 +73,9 @@ class NewOrderPage extends StatelessWidget {
           ),
         ]));
   }
-
+placeNewOrder(String serverId)async{
+    final result = await controller.placeNewOrder( serverId);
+}
   fetchServers() async {
     controller.loading.toggle();
     final result = await OrderManager().fetchServers();
