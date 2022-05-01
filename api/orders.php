@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     while ($row = oci_fetch_array($query)) {
         $i = [];
         $i["id"] = $row['ID'];
+        $i["price"] = $row['PRICE'];
         $i["capacity"] = $row['CAPACITY'];
         $i["is_available"] = $row['IS_AVAILABLE'] === "1";
         $i["name"] = $row['NAME'];
