@@ -30,12 +30,12 @@ class LoginPage extends StatelessWidget {
                     child: Obx(() => TextFormField(
                           validator: (v) {
                             if (v?.isEmpty ?? true) {
-                              return 'Enter your username';
+                              return 'Enter your email';
                             }
                             return null;
                           },
                           decoration: const InputDecoration(
-                              labelText: 'Username',
+                              labelText: 'Email',
                               border: OutlineInputBorder()),
                           controller: controller.username.value,
                         ))),
