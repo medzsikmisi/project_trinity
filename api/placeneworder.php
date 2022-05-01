@@ -6,7 +6,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $returned = [
 
     ];
@@ -21,36 +21,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   )";
 
     $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
-    if ($conn != true) {
+    if ($conn === false) {
         $returned['success'] = false;
         echo json_encode($returned);
         return;
     }
-    if (!isset($_GET['server_id'],$_GET['user_id'])) {
+    if (!isset($_GET['server_id'], $_GET['user_id'])) {
         $returned['success'] = false;
         $returned['message'] = 'MISSING_PARAM(S)';
         echo json_encode($returned);
+        oci_close($conn);
         return;
     }
 
     $userid = $_GET['user_id'];
     $serverid = $_GET['server_id'];
-    $query = oci_parse($conn, "insert into owned_servers (user_id,server_id) values ('$user_id','$server_id');");
-	if ($query === false) {
-        //TODO handle
+    $query = oci_parse($conn, "insert into owned_servers (user_id,server_id) values ($userid,$serverid)");
+    oci_execute($query);
+    if ($query === false) {
+        $returned['success'] = false;
+        $returned['message'] = 'owned error';
+        echo json_encode($returned);
+        oci_close($conn);
+        return;
     }
 
-    $query = oci_parse($conn, "update servers set is_available = 0 where id = '$id'");
+    $query = oci_parse($conn, "update servers set is_available = 0 where id = '$serverid'");
     oci_execute($query);
     if ($query === false) {
-        //TODO handle
-    }$query = oci_parse($conn, "insert into orders (user_id,server_id,is_ordered) values ('$userid','$serverid',1)");
+        $returned['success'] = false;
+        $returned['message'] = 'update error';
+        oci_close($conn);
+        echo json_encode($returned);
+        return;
+    }
+    $query = oci_parse($conn, "insert into orders (user_id,server_id,is_ordered) values ('$userid','$serverid',1)");
     oci_execute($query);
     if ($query === false) {
-        //TODO handle
+        $returned['success'] = false;
+        $returned['message'] = 'orders error';
+        oci_close($conn);
+        json_encode($returned);
+        return;
     }
 
 
     $returned['success'] = true;
+    oci_close($conn);
     echo json_encode($returned);
 }
