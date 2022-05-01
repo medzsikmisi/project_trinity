@@ -34,6 +34,8 @@ if (empty($email) || empty($password)) {
 }
 $query = oci_parse($conn, "SELECT count(C##OFAX96.USERS.EMAIL) COUNT FROM C##OFAX96.USERS WHERE C##OFAX96.USERS.EMAIL = '$email' AND C##OFAX96.USERS.PWD = '$password'");
 oci_execute($query);
+$rownum = oci_num_rows($query);
+$returned['rownum'] = $rownum;
 $data = oci_fetch_assoc($query);
 $counter = $data["COUNT"];
 if ($counter == 1) {

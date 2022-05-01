@@ -40,6 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $city = $_GET['city'];
     $street_and_number = $_GET['street_and_number'];
     $country = $_GET['country'];
+    //----
+    $query = oci_parse($conn, "insert into adresses (zip_code, city, street_and_number, country, alias) values ($zipcode, $city, $street_and_number, $country, 'Main address')");
+
+    if ($query === false) {
+        $returned['success'] = false;
+        $returned['message'] = 'can not instert into adresses';
+        echo json_encode($returned);
+        oci_close($conn);
+        return;
+    }
+    //----
     $statement = oci_parse($conn, "INSERT INTO USERS(EMAIL, PWD, FULL_NAME) VALUES ('$email','$password','$full_name')");
     $result = oci_execute($statement);
     if ($result !== false) {
