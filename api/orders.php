@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $i = [];
         $i["id"] = $row['ID'];
         $i["capacity"] = $row['CAPACITY'];
-        $i["is_available"] = $row['IS_AVAILABLE'];
+        $i["is_available"] = $row['IS_AVAILABLE'] === "1";
         $i["name"] = $row['NAME'];
         $i["category_id"] = $row['CATEGORY_ID'];
         $i["hardware_id"] = $row['HARDWARE_ID'];
