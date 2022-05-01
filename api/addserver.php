@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $query = oci_parse($conn, 
         "insert into servers (price, capacity, is_available, name, category_id, hardware_id)
-        values ($price, $capacity, 1, $server_name, $category, 0)"
+        values ($price, $capacity, 1, '$server_name', $category, 0)"
     );
 
     oci_execute($query);

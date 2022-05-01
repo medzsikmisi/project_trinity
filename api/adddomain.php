@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $query = oci_parse($conn, 
         "insert into domains (name)
-        values ($name)"
+        values ('$name')"
     );
 
     oci_execute($query);
