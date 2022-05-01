@@ -6,10 +6,16 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $returned = [
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (!isset($_GET['id'])) {
+        $returned['success'] = false;
+        $returned['message'] = 'MISSING_PARAM(S)';
+        echo json_encode($returned);
+        return;
+    }
 
-    ];
+    $returned = [];
+
     $tns = "
 (DESCRIPTION =
     (ADDRESS_LIST =
@@ -21,14 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   )";
 
     $conn = oci_connect("C##OFAX96", "C##OFAX96", $tns);
-    if ($conn != true) {
+    if ($conn != false) {
         $returned['success'] = false;
-        echo json_encode($returned);
-        return;
-    }
-    if (!isset($_GET['id'])) {
-        $returned['success'] = false;
-        $returned['message'] = 'MISSING_PARAM(S)';
         echo json_encode($returned);
         return;
     }
@@ -52,10 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $i["server_id"] = $row['SERVER_ID'];
         $i["user_id"] = $row['USER_ID'];
         array_push($data, $i);
-    }    
-
-    if(isset($_POST["id"]) && $_POST["id"] !== null){
-        $id = $_POST["id"];
     }
 
     $returned['success'] = true;
