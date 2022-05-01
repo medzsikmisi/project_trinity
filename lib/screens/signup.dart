@@ -137,6 +137,21 @@ class SignUpPage extends StatelessWidget {
                         ],
                       )),
                 ),
+                Obx(() => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: Get.width * 0.5,
+                        child: TextFormField(
+                          validator: (s) {
+                            if (s?.isEmpty ?? false) return 'Type a city';
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                              labelText: 'City', border: OutlineInputBorder()),
+                          controller: controller.city.value,
+                        ),
+                      ),
+                    )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
@@ -184,7 +199,8 @@ class SignUpPage extends StatelessWidget {
         controller.name.value.text,
         controller.country.value.text,
         controller.zip.value.text,
-        controller.streetAndNumber.value.text);
+        controller.streetAndNumber.value.text,
+        controller.city.value.text);
     if (!result) {
       Fluttertoast.showToast(msg: 'Wrong credentials!');
       return;

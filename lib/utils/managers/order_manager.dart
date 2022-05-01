@@ -21,11 +21,22 @@ class OrderManager extends GetConnect {
   }
 
   Future<bool> orderServer(String serverId, String userId) async {
-
     final response = await get('/placeneworder.php',
         query: {'user_id': userId, 'server_id': serverId});
     if (response.body == null) return false;
     final success = response.body['success'] ?? false;
     return success;
+  }
+
+  Future<List<Server>> fetchOrders(String userId) async {
+    final response = await get('/orders.php',query: {'id':userId});
+    if (response.body == null) {
+      return [];
+    }
+    final data = (response.body?['data'] as List?)
+        ?.map((e) => Server.fromJson(e))
+        .toList();
+    print(data);
+    return data??[];
   }
 }

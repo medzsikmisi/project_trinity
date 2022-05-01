@@ -59,7 +59,7 @@ class NewOrderPage extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text('Price'),
-                                    Text(controller.servers[i].price.toString())
+                                    Text(controller.servers[i].price.toString()+' HUF')
                                   ],
                                 ),
                               ),

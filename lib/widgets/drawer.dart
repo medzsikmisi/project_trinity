@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:project_trinity/controllers/order_controller.dart';
+import 'package:project_trinity/controllers/owned_servers_controller.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class CustomDrawer extends StatelessWidget {
           Get.offNamed('/lookup');
         }),
         createButton('Owned servers', () async {
+          final controller = Get.find<OwnedServersController>();
+          await controller.loadServers();
           Get.back();
           Get.offNamed('/owned');
         }),
@@ -37,6 +40,7 @@ class CustomDrawer extends StatelessWidget {
         }),
         createButton('Log out', () async {
           Get.back();
+          await Hive.deleteFromDisk();
           Get.offNamed('/login');
         }),
       ]),

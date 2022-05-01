@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:project_trinity/controllers/order_controller.dart';
+import 'package:project_trinity/controllers/owned_servers_controller.dart';
 import 'package:project_trinity/screens/home.dart';
 import 'package:project_trinity/screens/host_lookup.dart';
 import 'package:project_trinity/screens/login.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Get.put(OrderController());
+  Get.put(OwnedServersController());
   final settings = await Hive.openBox('settings');
   final isLoggedIn = settings.get('isLoggedIn', defaultValue: false);
 

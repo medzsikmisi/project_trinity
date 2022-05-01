@@ -9,6 +9,7 @@ class SignUpController extends GetxController {
   Rx<TextEditingController> name = TextEditingController().obs;
   Rx<TextEditingController> country = TextEditingController().obs;
   Rx<TextEditingController> zip = TextEditingController().obs;
+  Rx<TextEditingController> city = TextEditingController().obs;
   Rx<TextEditingController> streetAndNumber = TextEditingController().obs;
 
 }

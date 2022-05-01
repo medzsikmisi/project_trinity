@@ -23,7 +23,7 @@ class Authenticator extends GetConnect {
   }
 
   Future<bool> register(String email, String password, String fullName,
-      String country, String zip, String streetAndNumber) async {
+      String country, String zip, String streetAndNumber, String city) async {
     final response = await get('/register.php', query: {
       'email': email,
       'password': password,
@@ -31,7 +31,7 @@ class Authenticator extends GetConnect {
       'country': country,
       'zip_code': zip,
       'street_and_number': streetAndNumber,
-      'city': 'HUN'
+      'city': city
     });
     final bool? success = response.body['success'];
     if (success ?? false) return true;
