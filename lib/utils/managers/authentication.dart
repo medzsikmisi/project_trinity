@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class Authenticator extends GetConnect {
   Authenticator() {
@@ -11,7 +12,12 @@ class Authenticator extends GetConnect {
         query: {'email': username, 'password': password});
     print('body:${response.body}');
     Get.log('Request arrived with response code: ${response.statusCode}');
-    final bool? success = (response.body as Map?)?['success'] ;
+    final bool? success = (response.body as Map?)?['success'];
+    final box = await Hive.openBox('settings');
+    final userId = (response.body as Map?)?['id'];
+    Get.log('Saving id: $userId');
+    box.put('userId', userId);
+
     if (success ?? false) return true;
     return false;
   }
@@ -25,9 +31,9 @@ class Authenticator extends GetConnect {
       'country': country,
       'zip_code': zip,
       'street_and_number': streetAndNumber,
-      'city':'HUN'
+      'city': 'HUN'
     });
-    final bool? success = response.body['success'] ;
+    final bool? success = response.body['success'];
     if (success ?? false) return true;
     return false;
   }

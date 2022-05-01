@@ -14,23 +14,29 @@ class CustomDrawer extends StatelessWidget {
             accountName: Text(Hive.box('settings').get('username').toString()),
             accountEmail: const SizedBox.shrink()),
         createButton('Home', () async {
+          Get.back();
           Get.offNamed('/');
         }),
         createButton('Order a new server', () async {
           final controller = Get.find<OrderController>();
           controller.loadData();
+          Get.back();
           Get.offNamed('/servers/new');
         }),
         createButton('Hostname lookup', () async {
+          Get.back();
           Get.offNamed('/lookup');
         }),
         createButton('Owned servers', () async {
+          Get.back();
           Get.offNamed('/owned');
         }),
         createButton('Profile', () async {
+          Get.back();
           Get.offNamed('/profile');
         }),
         createButton('Log out', () async {
+          Get.back();
           Get.offNamed('/login');
         }),
       ]),

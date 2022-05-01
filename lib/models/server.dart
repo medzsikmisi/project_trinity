@@ -24,4 +24,9 @@ class Server {
     data['name'] = name;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Server with id: $id, name:$name';
+  }
 }
