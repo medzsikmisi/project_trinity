@@ -26,7 +26,7 @@ if ($conn === false) {
 // ---------------------------------------
 
 
-$query = oci_parse($conn, "SELECT * FROM SERVERS WHERE C##OFAX96.SERVERS.ISAVALIABLE = 1");
+$query = oci_parse($conn, "SELECT * FROM SERVERS WHERE C##OFAX96.SERVERS.IS_AVAILABLE = '1'");
 oci_execute($query);
 $data = array();
 while ($row = oci_fetch_assoc($query)) {
@@ -34,7 +34,8 @@ while ($row = oci_fetch_assoc($query)) {
     $new_server['id'] = $row['ID'];
     $new_server['price'] = $row['PRICE'];
     $new_server['capacity'] = $row['CAPACITY'];
-    $new_server['is_available'] = $row['IS_AVAILABLE']==='0';
+    $new_server['is_available'] = $row['IS_AVAILABLE']==='1';
+    $new_server['name'] = $row['NAME'];
     array_push($data, $new_server);
 }
 $returned['success'] = true;
