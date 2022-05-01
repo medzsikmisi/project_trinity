@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         values ($price, $capacity, 1, $server_name, $category, 0)"
     );
 
+    oci_execute($query);
+
     if ($query === false) {
         $returned['success'] = false;
         $returned['message'] = 'can not insert into servers';

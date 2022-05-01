@@ -34,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         values ($name)"
     );
 
+    oci_execute($query);
+
     if ($query === false) {
         $returned['success'] = false;
         $returned['message'] = 'can not insert into domains';
